@@ -8,7 +8,7 @@ const express = require('express');
 const app = express();
 const config = require('../config.js');// [Archivo de configuracion]
 const user = require('./components/user/network.js');
-
+const bodyParser = require('body-parser');//nos permite trabajar con la data de json
 
 //[Rutas]
 app.use('/api/user', user);
