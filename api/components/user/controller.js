@@ -1,25 +1,30 @@
 /*
 [ Controller -  Tiene toda la lógica, todo lo que sea modificar, cambiar, modificar, comprobar, se hace aquí ]
 */
+const auth = require('../auth');
+const { nanoid } = require('nanoid')
 
-const TABLE = 'user';
 
-module.exports = function(injectedStore){
+const TABLA = 'user';
+
+module.exports = function (injectedStore) {
     let store = injectedStore;
-    if(!store){
-        store = require('../../../storage/database.js');
-    }
-    function list(){
-        return store.list(TABLE);
+    if (!store) {
+        store = require('../../../store/dummy');
     }
 
-    function get(id){
-        return store.get(TABLE, id);
+    function list() {
+        return store.list(TABLA);
     }
 
-    function upsert(body) {
+    function get(id) {
+        return store.get(TABLA, id);
+    }
+
+    async function upsert(body) {
         const user = {
-            name: body.name
+            name: body.name,
+            username: body.username,
         }
 
         if (body.id) {
@@ -28,10 +33,20 @@ module.exports = function(injectedStore){
             user.id = nanoid();
         }
 
+        if (body.password || body.username) {
+            await auth.upsert({
+                id: user.id,
+                username: user.username,
+                password: body.password,
+            })
+        }
+
         return store.upsert(TABLA, user);
     }
+
     return {
         list,
         get,
+        upsert,
     };
 }

@@ -16,6 +16,7 @@ const response = require('../../../network/response');
 const Controller = require('./index');
 const router = express.Router();
 
+
 // Routes
 router.get('/', list)
 router.get('/:id', get);

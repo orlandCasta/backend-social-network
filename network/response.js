@@ -11,26 +11,25 @@ de esta manera nos aseguramos que las respuestas tengan la mismo forma y sentido
 
 const { addListener } = require("nodemon");
 
-
 //Respuesta success
-exports.success = function (req, res, message, status){
+exports.success = function (req, res, message, status) {
     let statusCode = status || 200;// Si no viene ningun status mandaremos el 200
     let statusMessage = message || '';
 
     res.status(status).send({
-        erro: false,
+        error: false,
         status: status,
         body: message,
     });
 }
 
 //Respuesta error
-exports.error = function (req, res, message, status){
+exports.error = function (req, res, message, status) {
     let statusCode = status || 500;// Si no viene ningun status mandaremos el 500
     let statusMessage = message || 'Internal server error';
 
     res.status(statusCode).send({
-        erro: false,
+        error: false,
         status: status,
         body: message,
     });

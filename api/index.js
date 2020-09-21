@@ -9,9 +9,18 @@ const app = express();
 const config = require('../config.js');// [Archivo de configuracion]
 const user = require('./components/user/network.js');
 const bodyParser = require('body-parser');//nos permite trabajar con la data de json
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = require('./swagger.json');
+
+
+app.use(bodyParser.json());
 
 //[Rutas]
 app.use('/api/user', user);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
+
+
 
 
 app.listen(config.api.port, () => {
